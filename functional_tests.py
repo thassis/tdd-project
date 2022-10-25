@@ -32,10 +32,7 @@ class NewVisitorTest(unittest.TestCase):
         # "1: Estudar testes funcionais" como um item da lista TODO
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
-        
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')  
-        self.assertIn('1: Estudar testes funcionais', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Estudar testes funcionais')
         
         # Ainda existe uma caixa de texto convidando para adicionar outro item
         # Ela digita: "Estudar testes de unidade"
@@ -45,6 +42,8 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         # A página atualiza novamente, e agora mostra ambos os itens na sua lista
+        self.check_for_row_in_list_table('1: Estudar testes funcionais')
+        self.check_for_row_in_list_table('2: Estudar testes de unidade')
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn('1: Estudar testes funcionais', [row.text for row in rows])
@@ -57,5 +56,10 @@ class NewVisitorTest(unittest.TestCase):
 
         # Satisfeita, ela vai dormir
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+  
 if __name__ == '__main__':
     unittest.main()
