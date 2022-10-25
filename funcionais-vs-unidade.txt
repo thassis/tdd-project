@@ -1,0 +1,4 @@
+1) Testes funcionais, por integrar sistemas, são bem mais lentos que testes de unidade.
+2) Testes funcionais podem ser não determinísticos (já que dependem de condições externas, 
+    como o banco de dados podendo falhar na conexão ou apresentar dados diferentes), já os
+    de unidade precisam ser determinísticos e rápidos para serem excutados com frequência maior.
