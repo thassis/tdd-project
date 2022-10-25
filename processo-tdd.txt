@@ -1,0 +1,8 @@
+  O TDD tem um fluxo a ser seguido: primeiro é preciso escrever um teste, rodá-lo, ver que vai falhar e 
+escrever um código mínimo para que o teste passe. Depois disso, é preciso analisar caso seja necessária
+alguma refatoração, se não, então encerra-se o ciclo ou vai para a escrita de um novo teste, se sim (precisa de
+refatoração), então deve-se voltar no passo de escrever um código mínimo e deixar que continue passando no teste.
+  Além disso, no caso de se escrever testes funcionais também, deve se seguir um fluxo parecido: escrever o teste,
+rodálo e ver se passou, se sim, então verificar se precisa de refatoração e se precisar vai para o fluxo do teste
+unitário. Vai para o fluxo do teste unitário também se o teste funcional falhar. Por ser um ciclo, sempre se repete
+no caso de novos testes.
