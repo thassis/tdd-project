@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.html import escape
 from lists.models import Item, List
 
 class HomePageTest(TestCase):
@@ -7,35 +8,6 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
                   
-class ListAndItemModelsTest(TestCase):
-
-    def test_saving_and_retrieving_items(self):
-        my_list = List()
-        my_list.save()
-
-        first_item = Item()
-        first_item.text = 'O primeiro item'
-        first_item.list = my_list
-        first_item.save()
-
-        second_item = Item()
-        second_item.text = 'O segundo item'
-        second_item.list = my_list
-        second_item.save()
-
-        saved_list = List.objects.first()
-        self.assertEqual(saved_list, my_list)
-
-        saved_items = Item.objects.all()
-        self.assertEqual(saved_items.count(), 2)
-
-        first_saved_item = saved_items[0]
-        second_saved_item = saved_items[1]
-        self.assertEqual(first_saved_item.text, 'O primeiro item')
-        self.assertEqual(first_saved_item.list, my_list)
-        self.assertEqual(second_saved_item.text, 'O segundo item')
-        self.assertEqual(second_saved_item.list, my_list)
-        
 class ListViewTest(TestCase):
 
     def test_uses_list_template(self):
@@ -76,6 +48,14 @@ class NewListTest(TestCase):
         response = self.client.post('/lists/new', data={'item_text': 'A new list item'})
         new_list = List.objects.first()
         self.assertRedirects(response, f'/lists/{new_list.id}/')
+
+    def test_validation_errors_are_sent_back_to_home_page_template(self):
+        response = self.client.post('/lists/new', data={'item_text': ''})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home.html')
+        expected_error = escape("You can't have an empty list item")
+        self.assertContains(response, expected_error)
+
 
 class NewItemTest(TestCase):
 
